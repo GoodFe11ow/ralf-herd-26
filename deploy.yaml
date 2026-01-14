@@ -2,7 +2,7 @@ import:
   - recipe/laravel.php
 
 config:
-  repository: 'git@github.com:USER/REPO.git'
+  repository: 'git@github.com:GoodFe11ow/ralf-herd-26.git'
   keep_releases: 2
 
 hosts:
