@@ -2,7 +2,7 @@ import:
   - recipe/laravel.php
 
 config:
-  repository: 'git@github.com'
+  repository: 'git@github.com:USER/REPO.git'
   keep_releases: 2
 
 hosts:
