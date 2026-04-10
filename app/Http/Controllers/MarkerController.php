@@ -32,7 +32,14 @@ class MarkerController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        Marker::create($request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'latitude' => ['required', 'numeric', 'between:-90,90'],
+            'longitude' => ['required', 'numeric', 'between:-180,180'],
+            'description' => ['nullable', 'string']
+        ]));
+
+        return redirect()->route('markers.index');
     }
 
     /**
