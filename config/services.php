@@ -37,6 +37,8 @@ return [
     
     'weather' => [
         'key' => env('WEATHER_API'),
-    ]
+        'default_city' => env('WEATHER_DEFAULT_CITY', 'Kuressaare'),
+        'default_country' => env('WEATHER_DEFAULT_COUNTRY'),
+    ],
 
 ];
