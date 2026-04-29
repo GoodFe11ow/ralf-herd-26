@@ -20,7 +20,8 @@ class DatabaseSeeder extends Seeder
         User::factory()->create([
             'name' => 'Test',
             'email' => 'test@test.ee',
-            'password'=>Hash::make('test@test.ee')
+            'password'=>Hash::make('test@test.ee'),
+            'is_admin' => true,
         ]);
 
         $this->call([

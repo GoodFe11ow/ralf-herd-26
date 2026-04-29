@@ -4,7 +4,7 @@
       <h1 class="text-2xl font-bold mb-4">{{ post!.title }}</h1>
       <p class="text-gray-600 mb-2"><span class="font-bold text-black">Author:</span><br>{{ post!.author.name }}</p>
       <div class="mt-4 whitespace-pre-line"><span class="font-bold">Content:</span><br>
-        {{ post!.content }}
+        {{ post.description ?? post.content }}
       </div>
       <div class="mt-8">
         <h2 class="text-xl font-semibold">Comments</h2>
@@ -96,7 +96,8 @@ defineProps<{
   post: {
     id: number;
     title: string;
-    content: string;
+    description: string | null;
+    content: string | null;
     author: {
       name: string;
     };

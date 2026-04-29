@@ -25,7 +25,7 @@ class PostController extends Controller
     public function create()
     {
         return Inertia::render('posts/Create', [
-            'authors' => Author::query()->select(['id', 'name'])->orderBy('name', 'asc')->get(), 
+            'authors' => Author::query()->select(['id', 'name'])->orderBy('name', 'asc')->get(),
         ]);
     }
 
@@ -34,12 +34,20 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-       Post::create($request->validate([
+        $validated = $request->validate([
             'title' => 'required|string|max:255',
-            'content' => 'required|string',
+            'description' => 'required|string',
             'author_id' => 'required|exists:authors,id',
             'published' => 'boolean',
-        ]));
+        ]);
+
+        Post::create([
+            'title' => $validated['title'],
+            'description' => $validated['description'],
+            'content' => $validated['description'],
+            'author_id' => $validated['author_id'],
+            'published' => $validated['published'] ?? false,
+        ]);
 
         return redirect()->route('posts.index');
     }
@@ -60,7 +68,7 @@ class PostController extends Controller
      * Show the form for editing the specified resource.
      */
     public function edit(Post $post)
-    {    
+    {
         return Inertia::render('posts/Edit', [
             'post' => $post,
             'authors' => Author::query()->select(['id', 'name'])->orderBy('name', 'asc')->get(),
@@ -72,13 +80,20 @@ class PostController extends Controller
      */
     public function update(Request $request, Post $post)
     {
-        // Валидируем и обновляем сразу
-        $post->update($request->validate([
+        $validated = $request->validate([
             'title' => 'required|string|max:255',
-            'content' => 'required|string',
+            'description' => 'required|string',
             'author_id' => 'required|exists:authors,id',
             'published' => 'boolean',
-        ]));
+        ]);
+
+        $post->update([
+            'title' => $validated['title'],
+            'description' => $validated['description'],
+            'content' => $validated['description'],
+            'author_id' => $validated['author_id'],
+            'published' => $validated['published'] ?? false,
+        ]);
 
         return redirect()->route('posts.index');
     }
@@ -89,7 +104,7 @@ class PostController extends Controller
     public function destroy(Post $post)
     {
         $post->delete();
-    
+
         return redirect()->route('posts.index');
     }
 }

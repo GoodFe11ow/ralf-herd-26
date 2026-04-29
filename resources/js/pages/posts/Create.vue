@@ -23,7 +23,7 @@ const props = defineProps<{
 
 const form = useForm({
     title: '',
-    content: '',
+    description: '',
     author_id: '',
     published: false
 })
@@ -48,8 +48,9 @@ const submit = () => {
                             <InputError :message="form.errors.title" />
                         </div>
                         <div>
-                            <Label for="content">Content</Label>
-                            <Textarea class="mt-2" id="content" v-model="form.content" />
+                            <Label for="description">Content</Label>
+                            <Textarea class="mt-2" id="description" v-model="form.description" />
+                            <InputError :message="form.errors.description" />
                         </div>
                         <div>
                             <div>

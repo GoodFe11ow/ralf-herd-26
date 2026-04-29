@@ -7,6 +7,7 @@ import { dashboard } from '@/routes';
 import { type BreadcrumbItem } from '@/types';
 import { Head, router, useForm } from '@inertiajs/vue3';
 import PlaceholderPattern from '../components/PlaceholderPattern.vue';
+import { index as postsIndex } from '@/routes/posts'
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -70,11 +71,13 @@ const locationLabel = () => {
 </script>
 
 <template>
+
     <Head title="Dashboard" />
     <AppLayout :breadcrumbs="breadcrumbs">
         <div class="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
             <div class="grid auto-rows-min gap-4 md:grid-cols-3">
-                <div class="relative overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border">
+                <div
+                    class="relative overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border">
                     <div class="flex h-full flex-col gap-4 p-4">
                         <form class="grid gap-3 sm:grid-cols-[1fr_120px_auto]" @submit.prevent="submit">
                             <Input v-model="form.city" placeholder="City" />
@@ -94,30 +97,41 @@ const locationLabel = () => {
                                     <li>Wind: {{ weather.data.wind }} m/s</li>
                                 </ul>
                             </div>
-                            <img
-                                v-if="weather.data.icon"
-                                class="size-20"
+                            <img v-if="weather.data.icon" class="size-20"
                                 :src="`https://openweathermap.org/img/wn/${weather.data.icon}@4x.png`"
-                                :alt="weather.data.description ?? 'Weather icon'"
-                            />
+                                :alt="weather.data.description ?? 'Weather icon'" />
                         </div>
 
-                        <div
-                            v-else
-                            class="flex min-h-40 items-center justify-center rounded-lg bg-muted/40 px-4 text-center text-sm text-muted-foreground"
-                        >
+                        <div v-else
+                            class="flex min-h-40 items-center justify-center rounded-lg bg-muted/40 px-4 text-center text-sm text-muted-foreground">
                             Search for a city to see the current weather.
                         </div>
                     </div>
                 </div>
-                <div class="relative aspect-video overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border">
-                    <PlaceholderPattern />
+                <div
+                    class="relative aspect-video overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border p-3">
+                    <button type="button"
+                        class="flex h-full w-full flex-col justify-between p-4 text-left transition hover:bg-muted/40"
+                        @click="router.get(postsIndex().url)">
+                        <div>
+                            <p class="text-sm text-muted-foreground">Blog</p>
+                            <h2 class="mt-2 text-2xl font-semibold">Manage posts</h2>
+                            <p class="mt-3 max-w-xs text-sm text-muted-foreground">
+                                Open the blog section to create, edit, and review posts.
+                            </p>
+                        </div>
+
+                        <span class=" text-lg font-semibold">Open posts →</span>
+                    </button>
                 </div>
-                <div class="relative aspect-video overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border">
+
+                <div
+                    class="relative aspect-video overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border">
                     <PlaceholderPattern />
                 </div>
             </div>
-            <div class="relative min-h-[100vh] flex-1 rounded-xl border border-sidebar-border/70 md:min-h-min dark:border-sidebar-border">
+            <div
+                class="relative min-h-[100vh] flex-1 rounded-xl border border-sidebar-border/70 md:min-h-min dark:border-sidebar-border">
                 <PlaceholderPattern />
             </div>
         </div>

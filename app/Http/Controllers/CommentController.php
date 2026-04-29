@@ -22,7 +22,7 @@ class CommentController extends Controller {
     }
 
     public function destroy(Comment $comment): RedirectResponse {
-        if (! request()->user()?-is_admin) {
+        if (! request()->user()?->is_admin) {
             abort(403);
         }
 

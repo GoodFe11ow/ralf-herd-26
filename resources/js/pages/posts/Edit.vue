@@ -24,9 +24,9 @@
 
                 <div class="mb-4">
                     <label class="block mb-2">Content</label>
-                    <textarea v-model="form.content" class="w-full border rounded px-3 py-2" rows="6"
+                    <textarea v-model="form.description" class="w-full border rounded px-3 py-2" rows="6"
                         required></textarea>
-                    <div v-if="form.errors.content" class="text-red-500 text-sm">{{ form.errors.content }}</div>
+                    <div v-if="form.errors.description" class="text-red-500 text-sm">{{ form.errors.description }}</div>
                 </div>
 
                 <div class="mb-4">
@@ -59,7 +59,8 @@ const props = defineProps<{
     post: {
         id: number;
         title: string;
-        content: string;
+        description: string | null;
+        content: string | null;
         author_id: number;
         published: boolean;
     },
@@ -79,7 +80,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 
 const form = useForm({
     title: props.post.title,
-    content: props.post.content,
+    description: props.post.description ?? props.post.content ?? '',
     author_id: String(props.post.author_id),
     published: props.post.published,
 });
