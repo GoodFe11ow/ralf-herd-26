@@ -61,16 +61,25 @@ class MarkerController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Marker $marker)
     {
-        //
+        $marker->update($request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'latitude' => ['required', 'numeric', 'between:-90,90'],
+            'longitude' => ['required', 'numeric', 'between:-180,180'],
+            'description' => ['nullable', 'string'],
+        ]));
+
+        return redirect()->route('markers.index');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Marker $marker)
     {
-        //
+        $marker->delete();
+
+        return redirect()->route('markers.index');
     }
 }
