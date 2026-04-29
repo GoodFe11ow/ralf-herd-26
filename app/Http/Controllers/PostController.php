@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use App\Models\Author;
 
 class PostController extends Controller
 {
@@ -23,7 +24,9 @@ class PostController extends Controller
      */
     public function create()
     {
-        return Inertia::render('posts/Create');
+        return Inertia::render('posts/Create', [
+            'authors' => Author::query()->select(['id', 'name'])->orderBy('name', 'asc')->get(), 
+        ]);
     }
 
     /**
@@ -34,7 +37,7 @@ class PostController extends Controller
        Post::create($request->validate([
             'title' => 'required|string|max:255',
             'content' => 'required|string',
-            'author' => 'required|string|max:255',
+            'author_id' => 'required|exists:authors,id',
             'published' => 'boolean',
         ]));
 
@@ -46,7 +49,8 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
-        $post->load('author');
+        $post->load(['author', 'comments']);
+
         return Inertia::render('posts/View', [
             'post' => $post
         ]);
@@ -58,7 +62,8 @@ class PostController extends Controller
     public function edit(Post $post)
     {    
         return Inertia::render('posts/Edit', [
-            'post' => $post  // Передаем данные поста в Vue компонент
+            'post' => $post,
+            'authors' => Author::query()->select(['id', 'name'])->orderBy('name', 'asc')->get(),
         ]);
     }
 

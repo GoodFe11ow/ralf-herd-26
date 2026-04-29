@@ -17,11 +17,15 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
+const props = defineProps<{
+    authors: { id: number; name: string }[];
+}>()
+
 const form = useForm({
     title: '',
     content: '',
-    author: '',
-    publish: false
+    author_id: '',
+    published: false
 })
 
 const submit = () => {
@@ -30,6 +34,7 @@ const submit = () => {
 </script>
 
 <template>
+
     <Head title="Posts" />
     <AppLayout :breadcrumbs="breadcrumbs">
         <div class="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
@@ -47,11 +52,21 @@ const submit = () => {
                             <Textarea class="mt-2" id="content" v-model="form.content" />
                         </div>
                         <div>
-                            <Label for="author">Author</Label>
-                            <Input class="mt-2" id="author" v-model="form.author" />
+                            <div>
+                                <Label for="author_id">Author</Label>
+                                <select id="author_id" v-model="form.author_id"
+                                    class="mt-2 flex h-9 w-full rounded-md border border-input bg-background px-3 py-1 text-sm">
+                                    <option disabled value="">Select an author</option>
+                                    <option v-for="author in props.authors" :key="author.id" :value="String(author.id)">
+                                        {{ author.name }}
+                                    </option>
+                                </select>
+                                <InputError :message="form.errors.author_id" />
+                            </div>
+
                         </div>
                         <div class="flex items-center space-x-2">
-                            <Switch id="published" />
+                            <Switch id="published" v-model="form.published"/>
                             <Label for="published">Published</Label>
                         </div>
                     </div>
@@ -59,7 +74,6 @@ const submit = () => {
                         <Button type="submit">Save</Button>
                     </div>
                 </form>
-                <pre>{{ form }}</pre>
             </div>
         </div>
     </AppLayout>
