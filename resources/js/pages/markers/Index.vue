@@ -114,7 +114,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 
     <AppLayout :breadcrumbs="breadcrumbs">
         <div class="flex h-full flex-1 flex-col gap-6 rounded-xl p-4">
-            <div class="rounded-xl border border-sidebar-border/70 p-5 dark:border-sidebar-border">
+            <div class="rounded-xl border border-foreground/30 p-5 dark:border-sidebar-border">
                 <h1 class="text-2xl font-semibold">Map Markers</h1>
                 <p class="mt-2 text-sm text-muted-foreground">
                     Manage your saved locations on the map. Total markers: {{ markers.length }}
@@ -122,7 +122,7 @@ const breadcrumbs: BreadcrumbItem[] = [
             </div>
 
             <div class="grid gap-6 lg:grid-cols-2">
-                <div class="rounded-xl border border-sidebar-border/70 p-5 dark:border-sidebar-border">
+                <div class="rounded-xl border border-foreground/30 p-5 dark:border-sidebar-border">
                     <div class="flex items-start justify-between gap-4">
                         <div>
                             <h2 class="text-lg font-medium">
@@ -172,7 +172,7 @@ const breadcrumbs: BreadcrumbItem[] = [
                     </form>
                 </div>
 
-                <div class="rounded-xl border border-sidebar-border/70 p-5 dark:border-sidebar-border">
+                <div class="rounded-xl border border-foreground/30 p-5 dark:border-sidebar-border">
                     <div class="flex items-start justify-between gap-4">
                         <div>
                             <h2 class="text-lg font-medium">Interactive map</h2>
@@ -191,7 +191,7 @@ const breadcrumbs: BreadcrumbItem[] = [
                 </div>
             </div>
 
-            <div class="rounded-xl border border-sidebar-border/70 p-5 dark:border-sidebar-border">
+            <div class="rounded-xl border border-foreground/30 p-5 dark:border-sidebar-border">
                 <div class="flex items-center justify-between gap-4">
                     <div>
                         <h2 class="text-lg font-medium">Saved markers</h2>
