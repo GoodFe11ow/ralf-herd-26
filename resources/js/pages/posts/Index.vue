@@ -3,6 +3,7 @@ import AppLayout from '@/layouts/AppLayout.vue';
 import { type BreadcrumbItem } from '@/types';
 import { Head, router } from '@inertiajs/vue3';
 import { create, index } from '@/routes/posts';
+import { index as authorsIndex } from '@/routes/authors'
 import { TableBody, Table, TableCaption, TableCell, TableHead, TableRow, TableHeader } from '@/components/ui/table';
 import {
     DropdownMenu,
@@ -30,7 +31,7 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
- export type Post = {
+export type Post = {
     id: number,
     title: string,
     content: string,
@@ -87,6 +88,10 @@ const viewPost = (postId: number) => {
     router.get(`/posts/${postId}`)
 }
 
+const publicationLabel = (published: boolean) => {
+    return published ? 'Published' : 'Draft';
+};
+
 </script>
 
 <template>
@@ -94,6 +99,25 @@ const viewPost = (postId: number) => {
     <Head title="Posts" />
     <AppLayout :breadcrumbs="breadcrumbs">
         <div class="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
+            <div class="flex flex-wrap items-center justify-between gap-3">
+                <div>
+                    <h1 class="text-2xl font-semibold">Posts</h1>
+                    <p class="text-sm text-muted-foreground">
+                        Manage blog posts and move between blog sections.
+                    </p>
+                </div>
+
+                <div class="flex flex-wrap gap-3">
+                    <Button type="button" variant="outline" @click="router.get(authorsIndex().url)">
+                        Go to authors
+                    </Button>
+
+                    <Button type="button" @click="router.get(create().url)">
+                        Create post
+                    </Button>
+                </div>
+            </div>
+
             <Table>
                 <TableCaption>A list of your recent blog posts.</TableCaption>
                 <TableHeader>
@@ -118,7 +142,18 @@ const viewPost = (postId: number) => {
                         <TableCell>{{ post.author.name }}</TableCell>
                         <TableCell class="text-right">{{ post.created_at_formated }}</TableCell>
                         <TableCell class="text-right">{{ post.updated_at_formated }}</TableCell>
-                        <TableCell class="text-right">{{ post.published }}</TableCell>
+                        <TableCell class="text-right">
+                            <span
+                                class="inline-flex rounded-full px-2.5 py-1 text-xs font-medium"
+                                :class="
+                                    post.published
+                                        ? 'bg-emerald-100 text-emerald-700'
+                                        : 'bg-amber-100 text-amber-700'
+                                "
+                            >
+                                {{ publicationLabel(post.published) }}
+                            </span>
+                        </TableCell>
                         <TableCell>
                             <div class="flex justify-end">
                                 <DropdownMenu class="">
@@ -129,7 +164,8 @@ const viewPost = (postId: number) => {
                                         <DropdownMenuItem @click="viewPost(post.id)">View</DropdownMenuItem>
                                         <DropdownMenuItem @click="editPost(post.id)">Edit</DropdownMenuItem>
                                         <DropdownMenuSeparator />
-                                        <DropdownMenuItem @click="deletePost(post.id)" class="text-destructive">Delete</DropdownMenuItem>
+                                        <DropdownMenuItem @click="deletePost(post.id)" class="text-destructive">Delete
+                                        </DropdownMenuItem>
                                     </DropdownMenuContent>
                                 </DropdownMenu>
                             </div>
@@ -138,13 +174,13 @@ const viewPost = (postId: number) => {
                 </TableBody>
             </Table>
             <Pagination class="w-full" :page="posts.current_page" v-slot="{ page }" :items-per-page="posts.per_page"
-                :total="posts.total" @update:page="(page) => router.get(index().url, {page: page})">
+                :total="posts.total" @update:page="(page) => router.get(index().url, { page: page })">
                 <PaginationContent v-slot="{ items }">
                     <PaginationPrevious />
 
-                    <template v-for="(item, index) in items" >
+                    <template v-for="(item, index) in items">
                         <PaginationItem v-if="item.type === 'page'" :key="index" :value="item.value" as-child>
-                            <Button :variant="item.value===page? 'default': 'outline'">{{ item.value }}</Button>
+                            <Button :variant="item.value === page ? 'default' : 'outline'">{{ item.value }}</Button>
                         </PaginationItem>
                     </template>
 

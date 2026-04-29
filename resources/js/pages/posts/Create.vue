@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import AppLayout from '@/layouts/AppLayout.vue';
 import { type BreadcrumbItem } from '@/types';
-import { Head, useForm } from '@inertiajs/vue3';
-import { create, store } from '@/routes/posts';
+import { Head, useForm, Link } from '@inertiajs/vue3';
+import { create, store, index } from '@/routes/posts';
 import Input from '@/components/ui/input/Input.vue';
 import Label from '@/components/ui/label/Label.vue';
 import Switch from '@/components/ui/switch/Switch.vue';
@@ -67,11 +67,14 @@ const submit = () => {
 
                         </div>
                         <div class="flex items-center space-x-2">
-                            <Switch id="published" v-model="form.published"/>
+                            <Switch id="published" v-model="form.published" />
                             <Label for="published">Published</Label>
                         </div>
                     </div>
-                    <div class="mt-6 flex justify-end">
+                    <div class="mt-6 flex justify-end gap-6">
+                        <Link :href="index().url" class="inline-flex items-center rounded-md border outline px-4 py-2 text-sm">
+                            Cancel
+                        </Link>
                         <Button type="submit">Save</Button>
                     </div>
                 </form>

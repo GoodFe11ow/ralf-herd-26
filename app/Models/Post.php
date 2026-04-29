@@ -26,6 +26,13 @@ class Post extends Model
             'created_at_formated',
             'updated_at_formated'
         ];
+
+    protected function casts(): array
+    {
+        return [
+            'published' => 'boolean',
+        ];
+    }
     
 
     public function author(): BelongsTo

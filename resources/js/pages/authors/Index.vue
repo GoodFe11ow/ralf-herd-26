@@ -20,6 +20,8 @@ import {
     PaginationNext,
     PaginationPrevious,
 } from '@/components/ui/pagination';
+import { index as postsIndex } from '@/routes/posts';
+import { create, index as createAuthor } from '@/routes/authors';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -80,9 +82,29 @@ const deleteAuthor = (authorId: number) => {
 </script>
 
 <template>
+
     <Head title="Authors" />
     <AppLayout :breadcrumbs="breadcrumbs">
         <div class="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
+            <div class="flex flex-wrap items-center justify-between gap-3">
+                <div>
+                    <h1 class="text-2xl font-semibold">Authors</h1>
+                    <p class="text-sm text-muted-foreground">
+                        Manage authors and move between blog sections.
+                    </p>
+                </div>
+
+                <div class="flex flex-wrap gap-3">
+                    <Button type="button" variant="outline" @click="router.get(postsIndex().url)">
+                        Go to posts
+                    </Button>
+
+                    <Button type="button" @click="router.get(create().url)">
+                        Create author
+                    </Button>
+                </div>
+            </div>
+
             <Table>
                 <TableCaption>A list of all authors.</TableCaption>
                 <TableHeader>
@@ -117,10 +139,7 @@ const deleteAuthor = (authorId: number) => {
                                             Edit
                                         </DropdownMenuItem>
                                         <DropdownMenuSeparator />
-                                        <DropdownMenuItem 
-                                            class="text-destructive" 
-                                            @click="deleteAuthor(author.id)"
-                                        >
+                                        <DropdownMenuItem class="text-destructive" @click="deleteAuthor(author.id)">
                                             Delete
                                         </DropdownMenuItem>
                                     </DropdownMenuContent>
@@ -130,19 +149,13 @@ const deleteAuthor = (authorId: number) => {
                     </TableRow>
                 </TableBody>
             </Table>
-            <Pagination 
-                class="w-full" 
-                :page="authors.current_page" 
-                v-slot="{ page }" 
-                :items-per-page="authors.per_page"
-                :total="authors.total" 
-                @update:page="(page) => router.get('/authors', {page: page})"
-            >
+            <Pagination class="w-full" :page="authors.current_page" v-slot="{ page }" :items-per-page="authors.per_page"
+                :total="authors.total" @update:page="(page) => router.get('/authors', { page: page })">
                 <PaginationContent v-slot="{ items }">
                     <PaginationPrevious />
                     <template v-for="(item, index) in items">
                         <PaginationItem v-if="item.type === 'page'" :key="index" :value="item.value" as-child>
-                            <Button :variant="item.value===page? 'default': 'outline'">
+                            <Button :variant="item.value === page ? 'default' : 'outline'">
                                 {{ item.value }}
                             </Button>
                         </PaginationItem>

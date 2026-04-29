@@ -82,7 +82,7 @@ const form = useForm({
     title: props.post.title,
     description: props.post.description ?? props.post.content ?? '',
     author_id: String(props.post.author_id),
-    published: props.post.published,
+    published: Boolean(props.post.published),
 });
 
 // Функция отправки формы
