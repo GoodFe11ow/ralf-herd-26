@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import AppLayout from '@/layouts/AppLayout.vue';
-import { Head } from '@inertiajs/vue3';
+import { Head, useForm } from '@inertiajs/vue3';
 import { type BreadcrumbItem } from '@/types';
+import { ref } from 'vue';
 
 type Product = {
     id: number;
@@ -14,6 +15,36 @@ type Product = {
 defineProps<{
     products: Product[];
 }>();
+
+const activeProductId = ref<number | null>(null);
+const addedProductId = ref<number | null>(null);
+
+const form = useForm({
+    product_id: '',
+    quantity: 1,
+});
+
+const addToCart = (productId: number) => {
+    activeProductId.value = productId;
+    form.product_id = String(productId);
+    form.quantity = 1;
+
+    form.post('/cart', {
+        preserveScroll: true,
+        onSuccess: () => {
+            addedProductId.value = productId;
+
+            window.setTimeout(() => {
+                if (addedProductId.value === productId) {
+                    addedProductId.value = null;
+                }
+            }, 1400);
+        },
+        onFinish: () => {
+            activeProductId.value = null;
+        },
+    })
+}
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -60,9 +91,18 @@ const breadcrumbs: BreadcrumbItem[] = [
                     <div class="mt-4">
                         <button
                             type="button"
-                            class="rounded-md bg-black px-4 py-2 text-sm text-white"
+                            class="rounded-md px-4 py-2 text-sm font-medium text-white transition disabled:cursor-not-allowed disabled:opacity-70"
+                            :class="
+                                addedProductId === product.id
+                                    ? 'bg-emerald-600 hover:bg-emerald-600'
+                                    : 'bg-black hover:bg-neutral-800 active:scale-[0.98]'
+                            "
+                            :disabled="activeProductId === product.id && form.processing"
+                            @click="addToCart(product.id)"
                         >
-                            Add to cart
+                            <span v-if="activeProductId === product.id && form.processing">Adding...</span>
+                            <span v-else-if="addedProductId === product.id">Added to cart</span>
+                            <span v-else>Add to cart</span>
                         </button>
                     </div>
                 </div>
