@@ -113,6 +113,12 @@ const breadcrumbs: BreadcrumbItem[] = [
                         </div>
                     </div>
                 </div>
+                <div class="flex justify-end">
+                    <Link href="/checkout" class="rounded-md bg-black px-4 py-2 text-sm text-white">
+                        Proceed to checkout
+                    </Link>
+                </div>
+
             </div>
         </div>
     </AppLayout>

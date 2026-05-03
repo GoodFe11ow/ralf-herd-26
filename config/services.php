@@ -41,4 +41,9 @@ return [
         'default_country' => env('WEATHER_DEFAULT_COUNTRY'),
     ],
 
+    'stripe' => [
+        'key' => env('STRIPE_KEY'),
+        "secret" => env('STRIPE_SECRET'),
+    ],
+
 ];
