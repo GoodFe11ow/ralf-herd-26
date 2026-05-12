@@ -66,3 +66,4 @@ require __DIR__ . '/posts.php';
 require __DIR__ . '/authors.php';
 require __DIR__ . '/markers.php';
 require __DIR__ . '/shop.php';
+require __DIR__ . '/games.php';
