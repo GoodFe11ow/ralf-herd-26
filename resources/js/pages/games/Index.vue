@@ -60,19 +60,30 @@ const breadcrumbs: BreadcrumbItem[] = [
 
     <AppLayout :breadcrumbs="breadcrumbs">
         <div class="flex flex-wrap items-start justify-between gap-4">
-            <div>
+            <div class="p-2">
                 <h1 class="text-3xl font-semibold">Favorite Games</h1>
                 <p class="mt-2 text-sm text-muted-foreground">
                     Browse your custom games collection.
                 </p>
             </div>
 
-            <Link href="/games/create" class="rounded-md bg-black px-4 py-2 text-sm text-white">
-                Add game
-            </Link>
+            <div class="flex flex-wrap gap-3">
+                <a href="/api/games" target="_blank" class="rounded-md border px-4 py-2 text-sm">
+                    Open API
+                </a>
+
+                <a href="/api/games-docs" target="_blank" class="rounded-md border px-4 py-2 text-sm">
+                    API docs
+                </a>
+
+                <Link href="/games/create" class="rounded-md bg-black px-4 py-2 text-sm text-white">
+                    Add game
+                </Link>
+            </div>
+
         </div>
         <form
-            class="grid gap-4 rounded-xl border border-sidebar-border/70 p-4 md:grid-cols-4 dark:border-sidebar-border"
+            class="grid gap-4 rounded-xl border border-sidebar-border/70 m-2 p-4 md:grid-cols-4 dark:border-sidebar-border"
             @submit.prevent="applyFilters">
             <div>
                 <label class="text-sm font-medium">Search</label>
@@ -106,7 +117,7 @@ const breadcrumbs: BreadcrumbItem[] = [
             No games added yet.
         </div>
 
-        <div v-else class="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+        <div v-else class="grid gap-4 md:grid-cols-2 xl:grid-cols-3 m-2">
             <div v-for="game in games" :key="game.id"
                 class="rounded-xl border border-sidebar-border/70 p-4 dark:border-sidebar-border">
                 <img :src="game.image" :alt="game.title" class="h-48 w-full rounded-lg object-cover" />

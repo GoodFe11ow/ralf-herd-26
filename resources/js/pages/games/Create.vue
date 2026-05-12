@@ -2,6 +2,7 @@
 import AppLayout from '@/layouts/AppLayout.vue';
 import { Head, useForm, Link } from '@inertiajs/vue3';
 import { type BreadcrumbItem } from '@/types';
+import InputError from '@/components/InputError.vue';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -44,31 +45,37 @@ const submit = () => {
                 <div>
                     <label class="text-sm font-medium">Title</label>
                     <input v-model="form.title" type="text" class="mt-2 w-full rounded-md border px-3 py-2" />
+                    <InputError :message="form.errors.title" />
                 </div>
 
                 <div>
                     <label class="text-sm font-medium">Image URL</label>
                     <input v-model="form.image" type="text" class="mt-2 w-full rounded-md border px-3 py-2" />
+                    <InputError :message="form.errors.image" />
                 </div>
 
                 <div>
                     <label class="text-sm font-medium">Description</label>
                     <textarea v-model="form.description" class="mt-2 w-full rounded-md border px-3 py-2" rows="4"></textarea>
+                    <InputError :message="form.errors.description" />
                 </div>
 
                 <div>
                     <label class="text-sm font-medium">Platform</label>
                     <input v-model="form.platform" type="text" class="mt-2 w-full rounded-md border px-3 py-2" />
+                    <InputError :message="form.errors.platform" />
                 </div>
 
                 <div>
                     <label class="text-sm font-medium">Release year</label>
                     <input v-model="form.release_year" type="number" class="mt-2 w-full rounded-md border px-3 py-2" />
+                    <InputError :message="form.errors.release_year" />
                 </div>
 
                 <div>
                     <label class="text-sm font-medium">Genre</label>
                     <input v-model="form.genre" type="text" class="mt-2 w-full rounded-md border px-3 py-2" />
+                    <InputError :message="form.errors.genre" />
                 </div>
 
                 <div class="mt-4 flex justify-end gap-3">
@@ -76,7 +83,7 @@ const submit = () => {
                         Cancel
                     </Link>
 
-                    <button type="submit" class="rounded-md bg-black px-4 py-2 text-sm text-white">
+                    <button type="submit" class="rounded-md bg-black px-4 py-2 text-sm text-white" :disabled="form.processing">
                         Save
                     </button>
                 </div>
