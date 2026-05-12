@@ -46,6 +46,18 @@ const applyFilters = () => {
     });
 };
 
+const clearFilters = () => {
+    filterForm.search = '';
+    filterForm.genre = '';
+    filterForm.platform = '';
+
+    router.get('/games', {}, {
+        preserveState: true,
+        preserveScroll: true,
+        replace: true,
+    });
+};
+
 const breadcrumbs: BreadcrumbItem[] = [
     {
         title: 'Games',
@@ -103,11 +115,16 @@ const breadcrumbs: BreadcrumbItem[] = [
                     class="mt-2 w-full rounded-md border px-3 py-2" />
             </div>
 
-            <div class="flex items-end">
+            <div class="flex items-end gap-3 md:col-span-1">
                 <button type="submit" class="w-full rounded-md bg-black px-4 py-2 text-sm text-white">
                     Apply filters
                 </button>
+
+                <button type="button" class="w-full rounded-md border px-4 py-2 text-sm" @click="clearFilters">
+                    Clear
+                </button>
             </div>
+
         </form>
 
 
