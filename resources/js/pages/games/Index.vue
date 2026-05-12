@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import AppLayout from '@/layouts/AppLayout.vue';
-import { Head } from '@inertiajs/vue3';
+import { Head, Link, router } from '@inertiajs/vue3';
 import { type BreadcrumbItem } from '@/types';
 
 type Game = {
@@ -17,6 +17,12 @@ defineProps<{
     games: Game[];
 }>();
 
+const deleteGame = (gameId: number) => {
+    if (confirm('Delete this game?')) {
+        router.delete(`/games/${gameId}`)
+    }
+}
+
 const breadcrumbs: BreadcrumbItem[] = [
     {
         title: 'Games',
@@ -26,10 +32,11 @@ const breadcrumbs: BreadcrumbItem[] = [
 </script>
 
 <template>
+
     <Head title="Games" />
 
     <AppLayout :breadcrumbs="breadcrumbs">
-        <div class="flex h-full flex-1 flex-col gap-6 rounded-xl p-4">
+        <div class="flex flex-wrap items-start justify-between gap-4">
             <div>
                 <h1 class="text-3xl font-semibold">Favorite Games</h1>
                 <p class="mt-2 text-sm text-muted-foreground">
@@ -37,32 +44,44 @@ const breadcrumbs: BreadcrumbItem[] = [
                 </p>
             </div>
 
-            <div v-if="games.length === 0" class="rounded-xl border border-sidebar-border/70 p-6 text-sm text-muted-foreground dark:border-sidebar-border">
-                No games added yet.
-            </div>
+            <Link href="/games/create" class="rounded-md bg-black px-4 py-2 text-sm text-white">
+                Add game
+            </Link>
+        </div>
 
-            <div v-else class="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-                <div
-                    v-for="game in games"
-                    :key="game.id"
-                    class="rounded-xl border border-sidebar-border/70 p-4 dark:border-sidebar-border"
-                >
-                    <img
-                        :src="game.image"
-                        :alt="game.title"
-                        class="h-48 w-full rounded-lg object-cover"
-                    />
 
-                    <h2 class="mt-4 text-lg font-semibold">{{ game.title }}</h2>
-                    <p class="mt-2 text-sm text-muted-foreground">{{ game.description }}</p>
+        <div v-if="games.length === 0"
+            class="rounded-xl border border-sidebar-border/70 p-6 text-sm text-muted-foreground dark:border-sidebar-border">
+            No games added yet.
+        </div>
 
-                    <div class="mt-4 space-y-1 text-sm">
-                        <p><span class="font-medium">Platform:</span> {{ game.platform }}</p>
-                        <p><span class="font-medium">Year:</span> {{ game.release_year }}</p>
-                        <p><span class="font-medium">Genre:</span> {{ game.genre }}</p>
-                    </div>
+        <div v-else class="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+            <div v-for="game in games" :key="game.id"
+                class="rounded-xl border border-sidebar-border/70 p-4 dark:border-sidebar-border">
+                <img :src="game.image" :alt="game.title" class="h-48 w-full rounded-lg object-cover" />
+
+                <h2 class="mt-4 text-lg font-semibold">{{ game.title }}</h2>
+                <p class="mt-2 text-sm text-muted-foreground">{{ game.description }}</p>
+
+                <div class="mt-4 space-y-1 text-sm">
+                    <p><span class="font-medium">Platform:</span> {{ game.platform }}</p>
+                    <p><span class="font-medium">Year:</span> {{ game.release_year }}</p>
+                    <p><span class="font-medium">Genre:</span> {{ game.genre }}</p>
                 </div>
+                <div class="mt-4 flex justify-end gap-3">
+                    <Link :href="`/games/${game.id}/edit`" class="rounded-md border px-4 py-2 text-sm">
+                        Edit
+                    </Link>
+
+                    <button type="button" class="rounded-md border border-red-300 px-4 py-2 text-sm text-red-600"
+                        @click="deleteGame(game.id)">
+                        Delete
+                    </button>
+                </div>
+
+
             </div>
         </div>
+        
     </AppLayout>
 </template>
