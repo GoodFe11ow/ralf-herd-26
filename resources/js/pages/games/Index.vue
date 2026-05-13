@@ -80,6 +80,10 @@ const breadcrumbs: BreadcrumbItem[] = [
             </div>
 
             <div class="flex flex-wrap gap-3">
+                <Link href="/games/movies" class="rounded-md bg-black px-4 py-2 text-sm text-white">
+                    Classmate Movies API
+                </Link>
+
                 <a href="/api/games" target="_blank" class="rounded-md border px-4 py-2 text-sm">
                     Open API
                 </a>
