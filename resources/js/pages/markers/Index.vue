@@ -1,14 +1,17 @@
 <script setup lang="ts">
 import AppLayout from '@/layouts/AppLayout.vue';
-import { Head, useForm, router } from "@inertiajs/vue3";
-import { type BreadcrumbItem } from '@/types';
-import { onMounted, ref } from 'vue';
-import L from 'leaflet';
-import 'leaflet/dist/leaflet.css';
 import InputError from '@/components/InputError.vue';
 import Button from '@/components/ui/button/Button.vue';
 import Input from '@/components/ui/input/Input.vue';
 import Textarea from '@/components/ui/textarea/Textarea.vue';
+import { Head, useForm, router } from "@inertiajs/vue3";
+import { type BreadcrumbItem } from '@/types';
+import L from 'leaflet';
+import 'leaflet/dist/leaflet.css';
+import markerIcon2x from 'leaflet/dist/images/marker-icon-2x.png';
+import markerIcon from 'leaflet/dist/images/marker-icon.png';
+import markerShadow from 'leaflet/dist/images/marker-shadow.png';
+import { onMounted, ref } from 'vue';
 
 
 type Marker = {
@@ -24,6 +27,18 @@ type Marker = {
 const props = defineProps<{
     markers: Marker[];
 }>();
+
+const defaultMarkerIcon = L.icon({
+    iconRetinaUrl: markerIcon2x,
+    iconUrl: markerIcon,
+    shadowUrl: markerShadow,
+    iconSize: [25, 41],
+    iconAnchor: [12, 41],
+    popupAnchor: [1, -34],
+    shadowSize: [41, 41],
+});
+
+L.Marker.prototype.options.icon = defaultMarkerIcon;
 
 const form = useForm({
     name: '',
@@ -80,7 +95,7 @@ onMounted(() => {
     const map = L.map(mapElement.value).setView([58.2529, 22.4896], 7);
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; OpenStreerMap contributors',
+        attribution: '&copy; OpenStreetMap contributors',
     }).addTo(map)
 
     map.on('click', (event) => {
